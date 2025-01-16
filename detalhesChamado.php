@@ -24,6 +24,9 @@ if (!$chamado) {
     exit;
 }
 
+// Usar nl2br na descrição
+$chamado['descricao'] = nl2br($chamado['descricao']);
+
 // Consultar comentários do chamado
 $sqlComentarios = "SELECT comentario FROM comentarios WHERE chamado_id = ?";
 $stmtComentarios = $conn->prepare($sqlComentarios);

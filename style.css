@@ -1,7 +1,8 @@
 #DivAll{
     display: flex;
     align-items: center;
-    flex-direction: column;
+    flex-direction: row;
+    justify-content: space-evenly;
 
 }
 
@@ -14,6 +15,7 @@
 /*DivDeAadicionarChamados*/
 
 #DivDeAadicionarChamados{
+    margin-left: 50px;
     padding: 30px;
     border: black solid 1px ;
     border-radius: 10px;
@@ -24,4 +26,12 @@
 #DivDaListaDeChamados{
     padding: 50px;
     
+}
+
+/*detalhes de Chamados específicos*/
+
+#detalhesChamado{
+    padding: 50px;
+    border: black solid 1px ;
+    border-radius: 10px;
 }

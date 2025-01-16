@@ -36,16 +36,23 @@
                 </form>
             </div>
 
-            <div id="DivDaListaDeChamados" style="margin-top: 50px; width: inherit; border: solid 1px black; border-radius: 10px ;">
+            <div id="DivDaListaDeChamados" style="width: inherit; border: solid 1px black; border-radius: 10px ;">
                 <h2>Chamados Prioritários</h2><br>
 
                 <!-- Lista de chamados -->
                 <ul id="listaChamados"></ul>
+                <br>
+                <hr style="opacity: 0.5;">
+                <br>
+                </div>
 
                 <!-- Área para detalhes do chamado -->
-                <div id="detalhesChamado" style="display: none;">
-                    <h2 id="tituloChamado"></h2>
-                    <p id="descricaoChamado"></p>
+                <div id="detalhesChamado" style="display: block;">
+                    <h2 id="tituloChamado"></h2><br>
+                    <h5>Descrição: </h5><p id="descricaoChamado"></p>
+                    <hr style="opacity: 0.5;">
+                
+
                     <h3>Comentários</h3>
                     <ul id="listaComentarios"></ul>
                     <form id="formComentario">
@@ -55,7 +62,6 @@
                     <button onclick="fecharDetalhes()">Fechar</button>
                 </div>
             </div>
-        </div>
 
         
 </body>
@@ -89,7 +95,7 @@
                 .then(response => response.json())
                 .then(data => {
                     document.getElementById("tituloChamado").textContent = data.titulo;
-                    document.getElementById("descricaoChamado").textContent = data.descricao;
+                    document.getElementById("descricaoChamado").innerHTML = data.descricao; // Exibir como HTML
 
                     // Exibir comentários
                     const listaComentarios = document.getElementById("listaComentarios");
