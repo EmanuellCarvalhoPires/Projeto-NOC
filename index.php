@@ -1,50 +1,67 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
+
 <head>
     <meta charset="UTF-8">
-    <title>Adicionar Chamados</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <link rel="stylesheet" href="style.css">
 </head>
+
+<?php include("./modules/header.php")?>
 <body>
-    <h1>Adicionar Chamado Prioritário</h1>
-    <form id="formChamado">
-        <label for="titulo">Título do Chamado:</label>
-        <input type="text" id="titulo" name="titulo" required>
-        <br><br>
+        <div id="DivAll">
+            <div id="DivDeAadicionarChamados">
+                <title>Adicionar Chamados</title>
+                <h2>Adicionar Chamado</h2>
+                <form id="formChamado">
+                    <label for="titulo">Título do Chamado:</label>
+                    <input type="text" id="titulo" name="titulo" required>
+                    <br><br>
 
-        <label for="prioridade">Nível de Prioridade:</label>
-        <select id="prioridade" name="prioridade" required>
-            <option value="1">1 (Baixa)</option>
-            <option value="2">2 (Média)</option>
-            <option value="3">3 (Alta)</option>
-        </select>
-        <br><br>
+                    <label for="prioridade">Nível de Prioridade:</label>
+                    <select id="prioridade" name="prioridade" required style="border:solid 1px black; border-radius: 5px; padding: 3px;">
+                        <option value="1">1 (Baixa)</option>
+                        <option value="2">2 (Média)</option>
+                        <option value="3">3 (Alta)</option>
+                    </select>
+                    <br><br>
+                    <div style="display:flex; margin-bottom: 10px;">
+                        <label for="descricao" style="margin-right: 10px;">Descrição:  </label>
+                        <textarea id="descricao" name="descricao" required style=" width: 300px; height: 150px; border:solid 1px black; border-radius: 5px;"></textarea>
+                        <br><br>
+                    </div>
+                    <br>
+                    <button type="submit" style="border:solid 1px black; border-radius: 5px;" >Adicionar Chamado</button>
 
-        <label for="descricao">Descrição:</label>
-        <textarea id="descricao" name="descricao" required></textarea>
-        <br><br>
+                </form>
+            </div>
 
-        <button type="submit">Adicionar Chamado</button>
-    </form>
+            <div id="DivDaListaDeChamados" style="margin-top: 50px; width: inherit; border: solid 1px black; border-radius: 10px ;">
+                <h2>Chamados Prioritários</h2><br>
 
-    <h1>Chamados Prioritários</h1>
+                <!-- Lista de chamados -->
+                <ul id="listaChamados"></ul>
 
-    <!-- Lista de chamados -->
-    <ul id="listaChamados"></ul>
+                <!-- Área para detalhes do chamado -->
+                <div id="detalhesChamado" style="display: none;">
+                    <h2 id="tituloChamado"></h2>
+                    <p id="descricaoChamado"></p>
+                    <h3>Comentários</h3>
+                    <ul id="listaComentarios"></ul>
+                    <form id="formComentario">
+                        <textarea id="comentario" placeholder="Digite seu comentário..." required></textarea>
+                        <button type="submit" style="border-radius: 10px;" >Adicionar Comentário</button>
+                    </form>
+                    <button onclick="fecharDetalhes()">Fechar</button>
+                </div>
+            </div>
+        </div>
 
-    <!-- Área para detalhes do chamado -->
-    <div id="detalhesChamado" style="display: none;">
-        <h2 id="tituloChamado"></h2>
-        <p id="descricaoChamado"></p>
-        <h3>Comentários</h3>
-        <ul id="listaComentarios"></ul>
-        <form id="formComentario">
-            <textarea id="comentario" placeholder="Digite seu comentário..." required></textarea>
-            <button type="submit">Adicionar Comentário</button>
-        </form>
-        <button onclick="fecharDetalhes()">Fechar</button>
-    </div>
+        
+</body>
 
-
+<footer>
+    
     <script>
         let chamadoSelecionado = null;
 
@@ -145,7 +162,17 @@
             .catch(error => console.error("Erro ao adicionar chamado:", error));
         });
 
+
+
+
+
+        
         
     </script>
-</body>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js" integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.min.js" integrity="sha384-0pUGZvbkm6XF6gxjEnlmuGrJXVbNuzT9qBBavbLwCsOGabYfZo0T0to5eqruptLy" crossorigin="anonymous"></script>
+
+
+</footer>
+
 </html>

@@ -1,0 +1,27 @@
+#DivAll{
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+
+}
+
+/*HEADER*/
+
+#header{
+    
+}
+
+/*DivDeAadicionarChamados*/
+
+#DivDeAadicionarChamados{
+    padding: 30px;
+    border: black solid 1px ;
+    border-radius: 10px;
+}
+
+/*DivDaListaDeChamados*/
+
+#DivDaListaDeChamados{
+    padding: 50px;
+    
+}
