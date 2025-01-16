@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <title>Adicionar Chamados</title>
+</head>
+<body>
+    <h1>Adicionar Chamado Prioritário</h1>
+    <form id="formChamado">
+        <label for="titulo">Título do Chamado:</label>
+        <input type="text" id="titulo" name="titulo" required>
+        <br><br>
+
+        <label for="prioridade">Nível de Prioridade:</label>
+        <select id="prioridade" name="prioridade" required>
+            <option value="1">1 (Baixa)</option>
+            <option value="2">2 (Média)</option>
+            <option value="3">3 (Alta)</option>
+        </select>
+        <br><br>
+
+        <label for="descricao">Descrição:</label>
+        <textarea id="descricao" name="descricao" required></textarea>
+        <br><br>
+
+        <button type="submit">Adicionar Chamado</button>
+    </form>
+
+    <h1>Chamados Prioritários</h1>
+
+    <!-- Lista de chamados -->
+    <ul id="listaChamados"></ul>
+
+    <!-- Área para detalhes do chamado -->
+    <div id="detalhesChamado" style="display: none;">
+        <h2 id="tituloChamado"></h2>
+        <p id="descricaoChamado"></p>
+        <h3>Comentários</h3>
+        <ul id="listaComentarios"></ul>
+        <form id="formComentario">
+            <textarea id="comentario" placeholder="Digite seu comentário..." required></textarea>
+            <button type="submit">Adicionar Comentário</button>
+        </form>
+        <button onclick="fecharDetalhes()">Fechar</button>
+    </div>
+
+
+    <script>
+        let chamadoSelecionado = null;
+
+        // Carregar chamados
+        fetch("listarChamados.php")
+            .then(response => response.json())
+            .then(data => {
+                const lista = document.getElementById("listaChamados");
+                lista.innerHTML = "";
+
+                data.forEach(chamado => {
+                    const item = document.createElement("li");
+                    item.innerHTML = `
+                        <strong>${chamado.titulo}</strong> - Prioridade: ${chamado.prioridade}
+                        <button onclick="carregarDetalhesChamado(${chamado.id})">Ver Detalhes</button>
+                    `;
+                    lista.appendChild(item);
+                });
+            });
+
+        // Carregar detalhes de um chamado
+        function carregarDetalhesChamado(id) {
+            chamadoSelecionado = id;
+            fetch(`detalhesChamado.php?id=${id}`)
+                .then(response => response.json())
+                .then(data => {
+                    document.getElementById("tituloChamado").textContent = data.titulo;
+                    document.getElementById("descricaoChamado").textContent = data.descricao;
+
+                    // Exibir comentários
+                    const listaComentarios = document.getElementById("listaComentarios");
+                    listaComentarios.innerHTML = "";
+                    data.comentarios.forEach(comentario => {
+                        const item = document.createElement("li");
+                        item.textContent = comentario.comentario;
+                        listaComentarios.appendChild(item);
+                    });
+
+                    document.getElementById("detalhesChamado").style.display = "block";
+                });
+        }
+
+        // Adicionar comentário
+        document.getElementById("formComentario").addEventListener("submit", function (e) {
+            e.preventDefault();
+
+            const comentario = document.getElementById("comentario").value;
+
+            fetch("adicionarComentario.php", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify({ chamado_id: chamadoSelecionado, comentario })
+            })
+            .then(response => response.json())
+            .then(data => {
+                alert(data.message);
+                if (data.success) {
+                    carregarDetalhesChamado(chamadoSelecionado); // Recarregar detalhes
+                    document.getElementById("comentario").value = ""; // Limpar o campo de comentário
+                }
+            })
+            .catch(error => console.error("Erro ao adicionar comentário:", error));
+        });
+
+        // Fechar a área de detalhes
+        function fecharDetalhes() {
+            document.getElementById("detalhesChamado").style.display = "none";
+        }
+
+
+        //------------------------------
+
+
+        // Enviar chamado ao backend
+        document.getElementById("formChamado").addEventListener("submit", function (e) {
+            e.preventDefault();
+
+            const titulo = document.getElementById("titulo").value;
+            const prioridade = document.getElementById("prioridade").value;
+            const descricao = document.getElementById("descricao").value;
+
+            fetch("adicionarChamado.php", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify({ titulo, prioridade, descricao })
+            })
+            .then(response => response.json())
+            .then(data => {
+                alert(data.message);
+                if (data.success) {
+                    location.reload(); // Recarregar para mostrar os chamados atualizados
+                }
+            })
+            .catch(error => console.error("Erro ao adicionar chamado:", error));
+        });
+
+        
+    </script>
+</body>
+</html>
